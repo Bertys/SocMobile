@@ -50,15 +50,20 @@ var app = {
 
 app.initialize();
 
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
 var w=screen.width;
 var h=screen.height
 //START OF GAME JS
-var game = new Phaser.Game(400, 400, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
     game.load.image('sky', 'img/sky.png');
-    game.load.image('ground', 'img/platform.png');
+    game.load.image('ground', 'img/plat4.png');
     game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
 
@@ -88,25 +93,37 @@ function create() {
 
     // Here we create the ground.
     //var ground = platforms.create(0, game.world.height - 64, 'ground');
-    var ground = platforms.create(0, h-50, 'ground');
+    var ground = platforms.create(0, game.world.height - 64, 'ground');
     
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2);
+    ground.scale.setTo(25, 2);
     //ground.scale.setTo(25, 1);//(the original sprite is 32x32 in size)
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    var ledge = platforms.create(Math.floor((Math.random() * 700) + 50), Math.floor((Math.random() * 500) + 50), 'ground');
+    
+    //  Now let's create the 4 walls
+    var ledge = platforms.create(0, 0, 'ground');
     ledge.body.immovable = true;
-    ledge.scale.setTo(0.08, 1);
+    ledge.scale.setTo(1, 18.75);
+    ledge = platforms.create(game.world.width - 32, 0, 'ground');
+    ledge.body.immovable = true;
+    ledge.scale.setTo(1, 18.75);
+    ledge = platforms.create(0, 0, 'ground');
+    ledge.body.immovable = true;
+    ledge.scale.setTo(25, 1);
+    
+    
+    //  Now let's create some ledges
+    //var ledge = platforms.create(Math.floor((Math.random() * 700) + 50), Math.floor((Math.random() * 500) + 50), 'ground');
+    //ledge.body.immovable = true;
+    //ledge.scale.setTo(0.08, 1);
 
     
     
 
     // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 250, 'dude');
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
@@ -129,13 +146,16 @@ function create() {
     stars.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 50; i++)
+    for (var i = 0; i < 500; i++)
     {
+        //Math random entre 1 y 6
+        //Math.floor(Math.random() * 6) + 1  
+        
         //  Create a star inside of the 'stars' group
-        var star = stars.create(Math.floor((Math.random() * 700) + 50), Math.floor((Math.random() * 500) + 50), 'star');
-        ledge = platforms.create(Math.floor((Math.random() * 700) + 50), Math.floor((Math.random() * 500) + 50), 'ground');
-        ledge.body.immovable = true;
-        ledge.scale.setTo(0.08, 1);
+        var star = stars.create(randomIntFromInterval(32,game.world.width-64), randomIntFromInterval(32,game.world.height-100), 'star');
+        //ledge = platforms.create(Math.floor((Math.random() * 736) + 64), Math.floor((Math.random() * 536) + 64), 'ground');
+        //ledge.body.immovable = true;
+        //ledge.scale.setTo(0.08, 1);
         
         
         //  Let gravity do its thing
