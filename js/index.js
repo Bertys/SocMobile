@@ -63,18 +63,20 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 function preload() {
 
     game.load.image('sky', 'img/sky.png');
-    game.load.image('ground', 'img/plat4.png');
+    game.load.image('ground', 'img/plat1.png');
     game.load.image('star', 'img/star.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
-
+    game.load.image('up', 'img/up.png');
+    game.load.image('down', 'img/down.png');
+    game.load.image('right', 'img/right.png');
+    game.load.image('left', 'img/left.png');
 }
 
 var player;
 var platforms;
 var cursors;
-
-var stars;
-var score = 0;
+var doors;
+var time = 1000;
 var scoreText;
 
 function create() {
@@ -136,37 +138,36 @@ function create() {
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player.animations.add('left1', [0, 1, 2, 3], 10, true);
+    player.animations.add('right1', [5, 6, 7, 8], 10, true);
 
     //  Finally some stars to collect
-    stars = game.add.group();
+    doors = game.add.group();
 
     //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
+    doors.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 500; i++)
-    {
+    //for (var i = 0; i < 500; i++)
+    //{
         //Math random entre 1 y 6
         //Math.floor(Math.random() * 6) + 1  
         
         //  Create a star inside of the 'stars' group
-        var star = stars.create(randomIntFromInterval(32,game.world.width-64), randomIntFromInterval(32,game.world.height-100), 'star');
-        //ledge = platforms.create(Math.floor((Math.random() * 736) + 64), Math.floor((Math.random() * 536) + 64), 'ground');
-        //ledge.body.immovable = true;
-        //ledge.scale.setTo(0.08, 1);
+        var door = doors.create(750, 300, 'star');
+        ledge.body.immovable = true;
+        ledge.scale.setTo(25, 2);
         
         
         //  Let gravity do its thing
-        star.body.gravity.y = 0;
+        //star.body.gravity.y = 0;
         //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        star.body.bounce.x = 0.7 + Math.random() * 0.2;
-    }
+        //star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        //star.body.bounce.x = 0.7 + Math.random() * 0.2;
+    //}
 
     //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = game.add.text(16, 16, 'Time: 100', { fontSize: '32px', fill: '#000' });
 
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
@@ -174,13 +175,17 @@ function create() {
 }
 
 function update() {
+    
+    //Timer
+    time -= 1;
+    scoreText.text = 'Time: ' + time;
 
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(stars, platforms);
+    game.physics.arcade.collide(doors, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    game.physics.arcade.overlap(player, doors, endGame, null, this);
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
@@ -188,52 +193,51 @@ function update() {
     
     
     //Button
+
     //game.load.spritesheet('button', 'img/sprites/metalslug_mummy37x45.png', 37, 45, 18);
     //game.load.spritesheet('button1', 'img/right.png', 37, 45, 18);
-    function create() {
-    var sprite = game.add.sprite(20, 20, 'button');
-    var sprite1 = game.add.sprite(20, 20, 'button1');
-    var sprite2 = game.add.sprite(20, 20, 'button2');
-    var sprite3 = game.add.sprite(20, 20, 'button3');
-
-
-    }
-    var button, button1, button3, button4;
+    //var up, down, right, left;
     
-    button = game.add.button(game.world.centerX *1.4, 100, 'button', actionOnClick, this, 2, 1, 0);
+    button = game.add.button(40, 550, 'down', actionOnClick, this, 2, 1, 0);
     button.onInputOver.add(over, this);
     button.onInputOut.add(out, this);
+    button.scale.setTo(0.25, 0.25);
     
-    button1 = game.add.button(game.world.centerX *1.4, 50, 'button1', actionOnClick1, this, 2, 1, 0);
+    button1 = game.add.button(110, 550, 'up', actionOnClick1, this, 2, 1, 0);
     button1.onInputOver.add(over1, this);
     button1.onInputOut.add(out, this);
+    button1.scale.setTo(0.25, 0.25);
     
-    button2 = game.add.button(game.world.centerX *1.5, 100, 'button2', actionOnClick2, this, 2, 1, 0);
+    button2 = game.add.button(75, 550, 'right', actionOnClick2, this, 2, 1, 0);
     button2.onInputOver.add(over2, this);
     button2.onInputOut.add(out, this);
+    button2.scale.setTo(0.25, 0.25);
     
-    button3 = game.add.button(game.world.centerX *1.3, 100, 'button3', actionOnClick3, this, 2, 1, 0);
+    button3 = game.add.button(5, 550, 'left', actionOnClick3, this, 2, 1, 0);
     button3.onInputOver.add(over3, this);
     button3.onInputOut.add(out, this);
+    button3.scale.setTo(0.25, 0.25);
+    
     
     function over() {
-        player.body.velocity.y = 300;
-        //player.animations.play('right');
+        player.body.velocity.y = +300;
     }
+    
     function over1() {
-        player.body.velocity.y -= 300;
+        player.body.velocity.y = -300;
     }
     function over2() {
-        player.body.velocity.x = 300;
-        player.animations.play('right');
+        player.body.velocity.x = +300;
+        player.animations.play('right1');
     }
     function over3() {
-        player.body.velocity.x -= 300;
-        player.animations.play('left');
+        player.body.velocity.x = -300;
+        player.animations.play('left1');
     }
     function out() {
         player.body.velocity.y = 0;
         player.body.velocity.x = 0;
+        a=0;
     }
 
     function actionOnClick () {
@@ -254,13 +258,13 @@ function update() {
     {
         //  Move to the left
         player.body.velocity.x = -150;
-        player.animations.play('left');
+        player.animations.play('left1');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
         player.body.velocity.x = 150;
-        player.animations.play('right');
+        player.animations.play('right1');
 
         
     }
@@ -290,15 +294,20 @@ function update() {
         player.body.velocity.y = -350;
     }
 
+    
+    if (time==0){
+        alert("You Loose");
+    }
 }
 
-function collectStar (player, star) {
+function endGame (player, door) {
     
     // Removes the star from the screen
-    star.kill();
+    door.kill();
+    alert("You Win");
 
     //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
+    //score += 10;
+    //scoreText.text = 'Score: ' + score;
 
 }
