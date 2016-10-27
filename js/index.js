@@ -1,21 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 var app = {
     // Application Constructor
     initialize: function() {
@@ -50,6 +32,10 @@ var app = {
 
 app.initialize();
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////START OF GAME JS///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 function randomIntFromInterval(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -57,14 +43,14 @@ function randomIntFromInterval(min,max)
 
 var w=screen.width;
 var h=screen.height
-//START OF GAME JS
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+var game = new Phaser.Game(400, 400, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
-    game.load.image('sky', 'img/sky.png');
-    game.load.image('ground', 'img/plat1.png');
-    game.load.image('star', 'img/star.png');
+    game.load.image('wall', 'img/2.png');
+    game.load.image('ground', 'img/1.png');
+    game.load.image('door', 'img/3.png');
     game.load.spritesheet('dude', 'img/dude.png', 32, 48);
     game.load.image('up', 'img/up.png');
     game.load.image('down', 'img/down.png');
@@ -73,104 +59,85 @@ function preload() {
 }
 
 var player;
-var platforms;
-var cursors;
-var doors;
 var time = 1000;
 var scoreText;
+var tierra;
+var pant;
+var image;
+var cursors;
+var doors;
+var star;
+var i,j,k,l,j1,k1;
 
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
-
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = game.add.group();
-
-    //  We will enable physics for any object that is created in this group
-    platforms.enableBody = true;
-
-    // Here we create the ground.
-    //var ground = platforms.create(0, game.world.height - 64, 'ground');
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    tierra = game.add.group();
+    tierra.enableBody = true;
     
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(25, 2);
-    //ground.scale.setTo(25, 1);//(the original sprite is 32x32 in size)
+    var cubo = tierra.create(0, 0, 'wall');
+    cubo.body.immovable = true;
+    cubo.scale.setTo(2, 2);
+    //  Hacer los muros laterales
+    for(i=1;i<20;i++){
+        cubo = tierra.create(0, i*20, 'wall');
+        cubo.scale.setTo(2, 2);
+        cubo.body.immovable = true;
+               
+        cubo = tierra.create(i*20, 0, 'wall');
+        cubo.scale.setTo(2, 2);
+        cubo.body.immovable = true;
+        cubo = tierra.create(i*20, 380, 'wall');
+        cubo.scale.setTo(2, 2);
+        cubo.body.immovable = true;
+        
+    }
+    for(k=1;k<11;k++){
+       cubo = tierra.create(380, k*20, 'wall');
+        cubo.scale.setTo(2, 2);
+        cubo.body.immovable = true;
+    }
+        for(l=1;l<9;l++){
+       cubo = tierra.create(380, 400-l*20, 'wall');
+        cubo.scale.setTo(2, 2);
+        cubo.body.immovable = true;
+    }
+    
+    pant = game.add.group();
+    var lag = pant.create(20, 20, 'ground');
+    lag.scale.setTo(2, 2);
+    for(k1=1;k1<19;k1++){
 
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-    
-    //  Now let's create the 4 walls
-    var ledge = platforms.create(0, 0, 'ground');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(1, 18.75);
-    ledge = platforms.create(game.world.width - 32, 0, 'ground');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(1, 18.75);
-    ledge = platforms.create(0, 0, 'ground');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(25, 1);
+        for(j1=1;j1<19;j1++){
+        lag = pant.create(20*k1, j1*20, 'ground');
+        lag.scale.setTo(2, 2);
+        }
+        lag = pant.create(20*k1, 20, 'ground');
+        lag.scale.setTo(2, 2);
+    }
     
     
-    //  Now let's create some ledges
-    //var ledge = platforms.create(Math.floor((Math.random() * 700) + 50), Math.floor((Math.random() * 500) + 50), 'ground');
-    //ledge.body.immovable = true;
-    //ledge.scale.setTo(0.08, 1);
-
-    
-    
-
-    // The player and its settings
-    player = game.add.sprite(32, game.world.height - 250, 'dude');
-
-    //  We need to enable physics on the player
+    player = game.add.sprite(40, 40, 'dude');
+    player.scale.setTo(0.33,0.33);
     game.physics.arcade.enable(player);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 1;
-    player.body.bounce.x = 1;
-    player.body.gravity.y = 0;
-    player.body.gravity.x = 0;
-    player.body.collideWorldBounds = true;
-
-    //  Our two animations, walking left and right.
-    player.animations.add('left1', [0, 1, 2, 3], 10, true);
-    player.animations.add('right1', [5, 6, 7, 8], 10, true);
-
-    //  Finally some stars to collect
+    
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    
+    scoreText = game.add.text(16, 16, 'Time: 100', { fontSize: '32px', fill: '#FFF' });
+    
     doors = game.add.group();
-
-    //  We will enable physics for any star that is created in this group
     doors.enableBody = true;
-
-    //  Here we'll create 12 of them evenly spaced apart
-    //for (var i = 0; i < 500; i++)
-    //{
-        //Math random entre 1 y 6
-        //Math.floor(Math.random() * 6) + 1  
-        
-        //  Create a star inside of the 'stars' group
-        var door = doors.create(750, 300, 'star');
-        ledge.body.immovable = true;
-        ledge.scale.setTo(25, 2);
-        
-        
-        //  Let gravity do its thing
-        //star.body.gravity.y = 0;
-        //  This just gives each star a slightly random bounce value
-        //star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        //star.body.bounce.x = 0.7 + Math.random() * 0.2;
-    //}
-
-    //  The score
-    scoreText = game.add.text(16, 16, 'Time: 100', { fontSize: '32px', fill: '#000' });
-
-    //  Our controls.
+    image = doors.create(380, 220, 'door');
+    image.scale.setTo(2,2);
+    
+    //image.body.immovable = false;
+    game.physics.arcade.enable(image);
+    
     cursors = game.input.keyboard.createCursorKeys();
+    
     
 }
 
@@ -180,9 +147,13 @@ function update() {
     time -= 1;
     scoreText.text = 'Time: ' + time;
 
-    //  Collide the player and the stars with the platforms
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(doors, platforms);
+    //  Collide the player and the image with the platforms
+    //game.physics.arcade.collide(player, image);
+    game.physics.arcade.collide(player, tierra);
+    game.physics.arcade.collide(doors, tierra);
+    
+    
+    //game.physics.arcade.collide(player, fondo);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, doors, endGame, null, this);
@@ -190,13 +161,8 @@ function update() {
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
-    
-    
+        
     //Button
-
-    //game.load.spritesheet('button', 'img/sprites/metalslug_mummy37x45.png', 37, 45, 18);
-    //game.load.spritesheet('button1', 'img/right.png', 37, 45, 18);
-    //var up, down, right, left;
     
     button = game.add.button(40, 550, 'down', actionOnClick, this, 2, 1, 0);
     button.onInputOver.add(over, this);
@@ -228,11 +194,11 @@ function update() {
     }
     function over2() {
         player.body.velocity.x = +300;
-        player.animations.play('right1');
+        player.animations.play('right');
     }
     function over3() {
         player.body.velocity.x = -300;
-        player.animations.play('left1');
+        player.animations.play('left');
     }
     function out() {
         player.body.velocity.y = 0;
@@ -258,13 +224,13 @@ function update() {
     {
         //  Move to the left
         player.body.velocity.x = -150;
-        player.animations.play('left1');
+        player.animations.play('left');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
         player.body.velocity.x = 150;
-        player.animations.play('right1');
+        player.animations.play('right');
 
         
     }
@@ -284,7 +250,7 @@ function update() {
     {
         //  Stand still
         player.animations.stop();
-
+        //?????????//
         player.frame = 4;
     }
     
@@ -296,18 +262,14 @@ function update() {
 
     
     if (time==0){
-        alert("You Loose");
+        alert("Game Over");
     }
 }
 
-function endGame (player, door) {
+function endGame (player, image) {
     
     // Removes the star from the screen
-    door.kill();
+    image.kill();
     alert("You Win");
-
-    //  Add and update the score
-    //score += 10;
-    //scoreText.text = 'Score: ' + score;
 
 }
