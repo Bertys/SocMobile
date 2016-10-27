@@ -51,23 +51,29 @@ function preload() {
     game.load.image('wall', 'img/2.png');
     game.load.image('ground', 'img/1.png');
     game.load.image('door', 'img/3.png');
-    game.load.spritesheet('dude', 'img/dude.png', 32, 48);
+    game.load.spritesheet('dude', 'img/dude1.png', 32, 48);
     game.load.image('up', 'img/up.png');
+    game.load.image('obs', 'img/dude.png');
     game.load.image('down', 'img/down.png');
     game.load.image('right', 'img/right.png');
     game.load.image('left', 'img/left.png');
 }
 
-var player;
+
 var time = 1000;
 var scoreText;
+
+var player;
 var tierra;
 var pant;
 var image;
+var obs;
+
+var stars;
+
+var button,button1,button2,button3;
 var cursors;
-var doors;
-var star;
-var i,j,k,l,j1,k1;
+var i,j,k,l,k1,a,b;
 
 function create() {
 
@@ -110,8 +116,8 @@ function create() {
     lag.scale.setTo(2, 2);
     for(k1=1;k1<19;k1++){
 
-        for(j1=1;j1<19;j1++){
-        lag = pant.create(20*k1, j1*20, 'ground');
+        for(j=1;j<19;j++){
+        lag = pant.create(20*k1, j*20, 'ground');
         lag.scale.setTo(2, 2);
         }
         lag = pant.create(20*k1, 20, 'ground');
@@ -119,67 +125,79 @@ function create() {
     }
     
     
-    player = game.add.sprite(40, 40, 'dude');
-    player.scale.setTo(0.33,0.33);
+    player = game.add.sprite(20, 20, 'dude');
+    player.scale.setTo(0.6,0.3);
     game.physics.arcade.enable(player);
     
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    //player.animations.add('left', [0, 1, 2, 3], 10, true);
+    //player.animations.add('right', [5, 6, 7, 8], 10, true);
+    
+
+    
+    stars = game.add.group();
+    stars.enableBody = true;
+    var star = stars.create(380, 220, 'door');
+    star.scale.setTo(2, 2);
+    
+    //Generar muros
+    obs = game.add.group();
+    obs.enableBody = true;
+    for(b=1;b<500;b++){
+    var taculos = obs.create(Math.floor(randomIntFromInterval(2,18)*20), Math.floor(randomIntFromInterval(1,18)*20), 'obs');  
+    taculos.body.immovable = true;
+    taculos.scale.setTo(2, 2);
+    }
+    
     
     scoreText = game.add.text(16, 16, 'Time: 100', { fontSize: '32px', fill: '#FFF' });
     
-    doors = game.add.group();
-    doors.enableBody = true;
-    image = doors.create(380, 220, 'door');
-    image.scale.setTo(2,2);
-    
-    //image.body.immovable = false;
-    game.physics.arcade.enable(image);
-    
-    cursors = game.input.keyboard.createCursorKeys();
-    
-    
+    cursors = game.input.keyboard.createCursorKeys();  
 }
 
 function update() {
     
     //Timer
+
+        if(time!=0){
     time -= 1;
     scoreText.text = 'Time: ' + time;
-
+    }else if(time==0){
+        scoreText.text = '"Game Over"';
+        alert("Game Over");
+        time=-1;
+    }
+    
+    
     //  Collide the player and the image with the platforms
-    //game.physics.arcade.collide(player, image);
     game.physics.arcade.collide(player, tierra);
-    game.physics.arcade.collide(doors, tierra);
-    
-    
-    //game.physics.arcade.collide(player, fondo);
+    game.physics.arcade.collide(player, obs);
+    game.physics.arcade.collide(stars, tierra);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player, doors, endGame, null, this);
+    game.physics.arcade.overlap(player, stars, endGame, null, this);
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
         
-    //Button
+    //Buttons
     
-    button = game.add.button(40, 550, 'down', actionOnClick, this, 2, 1, 0);
+    button = game.add.button(60, 340, 'down', actionOnClick, this, 2, 1, 0);
     button.onInputOver.add(over, this);
     button.onInputOut.add(out, this);
     button.scale.setTo(0.25, 0.25);
     
-    button1 = game.add.button(110, 550, 'up', actionOnClick1, this, 2, 1, 0);
+    button1 = game.add.button(130, 340, 'up', actionOnClick1, this, 2, 1, 0);
     button1.onInputOver.add(over1, this);
     button1.onInputOut.add(out, this);
     button1.scale.setTo(0.25, 0.25);
     
-    button2 = game.add.button(75, 550, 'right', actionOnClick2, this, 2, 1, 0);
+    button2 = game.add.button(95, 340, 'right', actionOnClick2, this, 2, 1, 0);
     button2.onInputOver.add(over2, this);
     button2.onInputOut.add(out, this);
     button2.scale.setTo(0.25, 0.25);
     
-    button3 = game.add.button(5, 550, 'left', actionOnClick3, this, 2, 1, 0);
+    button3 = game.add.button(25, 340, 'left', actionOnClick3, this, 2, 1, 0);
     button3.onInputOver.add(over3, this);
     button3.onInputOut.add(out, this);
     button3.scale.setTo(0.25, 0.25);
@@ -254,22 +272,17 @@ function update() {
         player.frame = 4;
     }
     
-    //  Allow the player to jump if they are touching the ground.
+    /*  Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player.body.touching.down)
     {
-        player.body.velocity.y = -350;
-    }
+        player.body.velocity.y = -550;
+    }*/
 
-    
-    if (time==0){
-        alert("Game Over");
     }
-}
-
-function endGame (player, image) {
+function endGame (player, star) {
     
     // Removes the star from the screen
-    image.kill();
+    star.kill();
     alert("You Win");
 
 }
