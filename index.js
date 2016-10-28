@@ -32,7 +32,7 @@ var app = {
 
 app.initialize();
 
-function loadJSON() {   
+function loadJSON() { 
     
     var xobj = new XMLHttpRequest();
        // xobj.overrideMimeType("application/json");
@@ -41,17 +41,31 @@ function loadJSON() {
         
           if (xobj.readyState == 4) {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-              alert(xobj.responseText);
+              //alert(xobj.responseText);
               var myArr = JSON.parse(xobj.responseText);
             myFunction(myArr);
               
               
           }
     };
-    //xobj.send(null);  
-    xobj.open("GET", 'mapa.json', true);
-    xobj.send();
+    switch(level) {
+    case 1:
+        xobj.open("GET", 'mapa1.json', true);
+            xobj.send();
+        break;
+    case 2:
+        xobj.open("GET", 'mapa2.json', true);
+            xobj.send();
+        break;
+        case 3:
+        xobj.open("GET", 'mapa3.json', true);
+            xobj.send();
+        break;
+    default:
+        break;
+}         
     
+ 
 
  }
 
@@ -118,6 +132,7 @@ function loadJSON() {
                 taculos.scale.setTo(2, 2);
             }else if(arr.mapa[b].x4==2){
                 var star = stars.create(Math.floor(b*20), Math.floor(b3*20), 'door');
+                taculos.body.immovable = false;
                 star.scale.setTo(2, 2);
             }else if(arr.mapa[b].x4==0){   
                 var lag = pant.create(Math.floor(b*20), Math.floor(3*20), 'ground');
@@ -236,7 +251,7 @@ function randomIntFromInterval(min,max)
 //var w=screen.width;
 //var h=screen.height
 
-var game = new Phaser.Game(200, 200, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(400, 400, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -261,9 +276,8 @@ var pant;
 var image;
 var obs;
 var path;
-//var map = "mapa.txt";
+var level=1;
 var stars;
-
 var button,button1,button2,button3;
 var cursors;
 var i,j,k,l,k1,a,b,c;
@@ -279,7 +293,6 @@ function create() {
 
 
     loadJSON();
-    //alert(json[0][1]);
     obs = game.add.group();
     obs.enableBody = true;
     tierra = game.add.group();
@@ -298,7 +311,13 @@ function create() {
     
     cursors = game.input.keyboard.createCursorKeys();  
 }
+function clean () {
 
+    pant.callAll('kill');
+    stars.callAll('kill');
+    obs.callAll('kill');
+    tierra.callAll('kill');
+    }
 function update() {
     
     //Timer
@@ -309,7 +328,7 @@ function update() {
     }else if(time==0){
         alert("Game Over");
         time=-1;
-    }else if(time==-1){
+    }else if(time==-2){
         scoreText.text = '"You Win"';
     }else{
         scoreText.text = '"Game Over"';
@@ -352,18 +371,18 @@ function update() {
     
     
     function over() {
-        player.body.velocity.y = +300;
+        player.body.velocity.y = +100;
     }
     
     function over1() {
-        player.body.velocity.y = -300;
+        player.body.velocity.y = -100;
     }
     function over2() {
-        player.body.velocity.x = +300;
+        player.body.velocity.x = +100;
         player.animations.play('right');
     }
     function over3() {
-        player.body.velocity.x = -300;
+        player.body.velocity.x = -100;
         player.animations.play('left');
     }
     function out() {
@@ -373,16 +392,16 @@ function update() {
     }
 
     function actionOnClick () {
-        player.body.velocity.y += 300;
+        player.body.velocity.y += 100;
     }
     function actionOnClick1 () {
-        player.body.velocity.y -= 300;
+        player.body.velocity.y -= 100;
     }
     function actionOnClick2 () {
-        player.body.velocity.x -= 300;
+        player.body.velocity.x -= 100;
     }
     function actionOnClick3 () {
-        player.body.velocity.x += 300;
+        player.body.velocity.x += 100;
     }
     
     if (time>=0){
@@ -427,11 +446,17 @@ function update() {
     }*/
     }
     function endGame (player, star) {
-
+        
+        level++;
+        if(level<=3){
         // Removes the star from the screen
         star.kill();
-        alert("You Win");
-        time=-1;
-        scoreText.text = '"You Win"';
+        time=1000;
+        clean();
+        loadJSON();
+        }else if(level>3){
+            alert("YOU ARE THE BEST");
+            time=-2;
+        }
     }
 }
