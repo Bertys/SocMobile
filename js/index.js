@@ -32,17 +32,218 @@ var app = {
 
 app.initialize();
 
+function loadJSON() { 
+    
+    var xobj = new XMLHttpRequest();
+    xobj.onreadystatechange = function () {
+        
+          if (xobj.readyState == 4) {
+              var myArr = JSON.parse(xobj.responseText);
+            myFunction(myArr);
+          }
+    };
+    switch(level) {
+    case 1:
+        xobj.open("GET", 'mapa1.json', true);
+            xobj.send();
+        break;
+    case 2:
+        xobj.open("GET", 'mapa2.json', true);
+            xobj.send();
+        break;
+        case 3:
+        xobj.open("GET", 'mapa3.json', true);
+            xobj.send();
+        break;
+    default:
+        break;
+}         
+    
+ 
+
+ }
+
+    function myFunction(arr) {
+    //PINTANDO EL MAPA SEGUN LOS DATOS DEL JSON
+        
+        
+        
+        $(document).ready(function() {
+            
+            for(b=0;b<10;b++){
+        if(arr.mapa[b].x1==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(0*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x1==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(0*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x1==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(0*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x1==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(0*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                if(arr.mapa[b].x2==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(1*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x2==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(1*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x2==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(1*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x2==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(1*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                        if(arr.mapa[b].x3==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(2*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x3==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(2*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x3==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(2*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x3==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(2*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                        if(arr.mapa[b].x4==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(3*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x4==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(3*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x4==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(b3*20), 'door');
+                taculos.body.immovable = false;
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x4==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(3*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                        if(arr.mapa[b].x5==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(4*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x5==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(4*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x5==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(4*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x5==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(4*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                        if(arr.mapa[b].x6==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(5*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x6==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(5*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x6==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(5*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x6==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(5*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                        if(arr.mapa[b].x7==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(6*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x7==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(6*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x7==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(6*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x7==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(6*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+
+                if(arr.mapa[b].x8==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(7*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x8==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(7*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x8==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(7*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x8==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(7*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                          if(arr.mapa[b].x9==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(8*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x9==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(8*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x9==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(8*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x9==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(8*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+                            if(arr.mapa[b].x10==1){
+                var cubo = tierra.create(Math.floor(b*20), Math.floor(9*20), 'wall');
+                cubo.body.immovable = true;
+                cubo.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x10==3){
+                var taculos = obs.create(Math.floor(b*20), Math.floor(9*20), 'obs');  
+                taculos.body.immovable = true;
+                taculos.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x10==2){
+                var star = stars.create(Math.floor(b*20), Math.floor(9*20), 'door');
+                star.scale.setTo(2, 2);
+            }else if(arr.mapa[b].x10==0){   
+                var lag = pant.create(Math.floor(b*20), Math.floor(9*20), 'ground');
+                lag.scale.setTo(2, 2);
+            }
+     
+    }
+        });
+                          }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////START OF GAME JS///////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var physicalScreenWidth = window.screen.width * window.devicePixelRatio;
+var physicalScreenHeight = window.screen.height * window.devicePixelRatio;
+
+
+
 function randomIntFromInterval(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
-var w=screen.width;
-var h=screen.height
+//var w=screen.width;
+//var h=screen.height
 
 var game = new Phaser.Game(400, 400, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
@@ -68,103 +269,63 @@ var tierra;
 var pant;
 var image;
 var obs;
-
+var path;
+var level=1;
 var stars;
-
 var button,button1,button2,button3;
 var cursors;
-var i,j,k,l,k1,a,b;
+var i,j,k,l,k1,a,b,c;
 
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    tierra = game.add.group();
-    tierra.enableBody = true;
-    
-    var cubo = tierra.create(0, 0, 'wall');
-    cubo.body.immovable = true;
-    cubo.scale.setTo(2, 2);
-    //  Hacer los muros laterales
-    for(i=1;i<20;i++){
-        cubo = tierra.create(0, i*20, 'wall');
-        cubo.scale.setTo(2, 2);
-        cubo.body.immovable = true;
-               
-        cubo = tierra.create(i*20, 0, 'wall');
-        cubo.scale.setTo(2, 2);
-        cubo.body.immovable = true;
-        cubo = tierra.create(i*20, 380, 'wall');
-        cubo.scale.setTo(2, 2);
-        cubo.body.immovable = true;
-        
-    }
-    for(k=1;k<11;k++){
-       cubo = tierra.create(380, k*20, 'wall');
-        cubo.scale.setTo(2, 2);
-        cubo.body.immovable = true;
-    }
-        for(l=1;l<9;l++){
-       cubo = tierra.create(380, 400-l*20, 'wall');
-        cubo.scale.setTo(2, 2);
-        cubo.body.immovable = true;
-    }
-    
-    pant = game.add.group();
-    var lag = pant.create(20, 20, 'ground');
-    lag.scale.setTo(2, 2);
-    for(k1=1;k1<19;k1++){
-
-        for(j=1;j<19;j++){
-        lag = pant.create(20*k1, j*20, 'ground');
-        lag.scale.setTo(2, 2);
-        }
-        lag = pant.create(20*k1, 20, 'ground');
-        lag.scale.setTo(2, 2);
-    }
-    
-    
-    player = game.add.sprite(20, 20, 'dude');
-    player.scale.setTo(0.6,0.3);
-    game.physics.arcade.enable(player);
-    
     //player.animations.add('left', [0, 1, 2, 3], 10, true);
     //player.animations.add('right', [5, 6, 7, 8], 10, true);
     
 
-    
-    stars = game.add.group();
-    stars.enableBody = true;
-    var star = stars.create(380, 220, 'door');
-    star.scale.setTo(2, 2);
-    
-    //Generar muros
+
+    loadJSON();
     obs = game.add.group();
     obs.enableBody = true;
-    for(b=1;b<500;b++){
-    var taculos = obs.create(Math.floor(randomIntFromInterval(2,18)*20), Math.floor(randomIntFromInterval(1,18)*20), 'obs');  
-    taculos.body.immovable = true;
-    taculos.scale.setTo(2, 2);
-    }
+    tierra = game.add.group();
+    tierra.enableBody = true;
+    stars = game.add.group();
+    stars.enableBody = true;
+    pant = game.add.group();
     
+        
+        
+    player = game.add.sprite(20, 20, 'dude');
+    player.scale.setTo(0.5,0.3);
+    game.physics.arcade.enable(player);
     
-    scoreText = game.add.text(16, 16, 'Time: 100', { fontSize: '32px', fill: '#FFF' });
+    scoreText = game.add.text(16, 16, 'Time: 1000', { fontSize: '32px', fill: '#FFF' });
     
     cursors = game.input.keyboard.createCursorKeys();  
 }
+function clean () {
 
+    pant.callAll('kill');
+    stars.callAll('kill');
+    obs.callAll('kill');
+    tierra.callAll('kill');
+    }
 function update() {
     
     //Timer
 
-        if(time!=0){
+        if(time>=0){
     time -= 1;
     scoreText.text = 'Time: ' + time;
     }else if(time==0){
-        scoreText.text = '"Game Over"';
         alert("Game Over");
         time=-1;
+    }else if(time==-2){
+        scoreText.text = '"You Win"';
+    }else{
+        scoreText.text = '"Game Over"';
     }
     
     
@@ -204,18 +365,18 @@ function update() {
     
     
     function over() {
-        player.body.velocity.y = +300;
+        player.body.velocity.y = +100;
     }
     
     function over1() {
-        player.body.velocity.y = -300;
+        player.body.velocity.y = -100;
     }
     function over2() {
-        player.body.velocity.x = +300;
+        player.body.velocity.x = +100;
         player.animations.play('right');
     }
     function over3() {
-        player.body.velocity.x = -300;
+        player.body.velocity.x = -100;
         player.animations.play('left');
     }
     function out() {
@@ -225,19 +386,19 @@ function update() {
     }
 
     function actionOnClick () {
-        player.body.velocity.y += 300;
+        player.body.velocity.y = +100;
     }
     function actionOnClick1 () {
-        player.body.velocity.y -= 300;
+        player.body.velocity.y = -100;
     }
     function actionOnClick2 () {
-        player.body.velocity.x -= 300;
+        player.body.velocity.x = -100;
     }
     function actionOnClick3 () {
-        player.body.velocity.x += 300;
+        player.body.velocity.x = +100;
     }
     
-
+    if (time>=0){
     if (cursors.left.isDown)
     {
         //  Move to the left
@@ -277,12 +438,20 @@ function update() {
     {
         player.body.velocity.y = -550;
     }*/
-
     }
-function endGame (player, star) {
-    
-    // Removes the star from the screen
-    star.kill();
-    alert("You Win");
-
+    function endGame (player, star) {
+        
+        level++;
+        if(level<=3){
+        // Removes the star from the screen
+        star.kill();
+        time=1000;
+        clean();
+        loadJSON();
+        }else if(level==4){
+            alert("YOU ARE THE BEST");
+            time=-2;
+            level++;
+        }
+    }
 }
