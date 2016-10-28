@@ -35,17 +35,11 @@ app.initialize();
 function loadJSON() { 
     
     var xobj = new XMLHttpRequest();
-       // xobj.overrideMimeType("application/json");
-    //xobj.open('GET', 'mapa.json', true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
         
           if (xobj.readyState == 4) {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-              //alert(xobj.responseText);
               var myArr = JSON.parse(xobj.responseText);
             myFunction(myArr);
-              
-              
           }
     };
     switch(level) {
@@ -70,7 +64,7 @@ function loadJSON() {
  }
 
     function myFunction(arr) {
-    //alert(arr.mapa[0].ola);
+    //PINTANDO EL MAPA SEGUN LOS DATOS DEL JSON
         
         
         
@@ -392,16 +386,16 @@ function update() {
     }
 
     function actionOnClick () {
-        player.body.velocity.y += 100;
+        player.body.velocity.y = +100;
     }
     function actionOnClick1 () {
-        player.body.velocity.y -= 100;
+        player.body.velocity.y = -100;
     }
     function actionOnClick2 () {
-        player.body.velocity.x -= 100;
+        player.body.velocity.x = -100;
     }
     function actionOnClick3 () {
-        player.body.velocity.x += 100;
+        player.body.velocity.x = +100;
     }
     
     if (time>=0){
@@ -454,9 +448,10 @@ function update() {
         time=1000;
         clean();
         loadJSON();
-        }else if(level>3){
+        }else if(level==4){
             alert("YOU ARE THE BEST");
             time=-2;
+            level++;
         }
     }
 }
