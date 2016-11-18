@@ -1,29 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
+  <head>
+    <title>Showing pixel and tile coordinates</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
+    <style>
+    #map-page, #map { width: 100%; height: 100%; padding: 0; }
+    </style>
+  </head>
+  <body>
+      <!-- Start of MAIN page -->
+    
+<div data-role="page" class="jqm-demos" data-title="Panel fixed positioning" id="map-page" data-url="map-page">
+	<div data-role="header" data-position="fixed">
+		<h1>Menú superior P0</h1>  
+		<a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+		<a href="#add-form" data-icon="gear" data-iconpos="notext">Add</a>
+	</div><!-- /header -->
+    
+	<div role="main" class="ui-content" id="map">
+          <!-- map loads here... -->
+    </div>
+    <button type="button" id="b1">Click Me!</button>
         
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <script type="text/javascript" src="js/phaser.min.js"></script>
-        <script src="js/jquery-1.11.0.js"></script>
-        <!--
-        <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
-	   <script src="js/jquery-1.11.0.js"></script>
-	   <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.js"></script>-->
-        <title>Main Page</title>
-    </head>
-    <body>
-        <!--<div class="app">
-            <h1>Cordova MyGame</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>-->
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+        
+	<!-- /content -->
+    
+	<div data-role="footer" data-position="fixed">
+		<h4>Menú inferior P0</h4>    
+	</div><!-- /footer -->
+    
+	<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
+		<ul data-role="listview">
+			<li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
+			<li><a href="#map-page">Mapa</a></li>
+			<li><a href="#one">ListaParadas</a></li>
+			<li><a href="#two">Onroute</a></li>
+		</ul>
+	</div><!-- /panel -->
+    
+	<div data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay" data-theme="a" id="add-form">
+			  
+	</div><!-- /panel lateral derecho-->
+</div>
+                    <!-- End of MAIN page -->
+      
+                    <!-- Start of 2nd page -->
+    
+<div data-role="page" class="jqm-demos" data-title="Panel fixed positioning" id="one" data-url="one">
+	<div data-role="header" data-position="fixed">
+		<h1>Menú superior P0</h1>  
+		<a href="#nav-panel1" data-icon="bars" data-iconpos="notext">Menu</a>
+		<a href="#add-form1" data-icon="gear" data-iconpos="notext">Add</a>
+	</div><!-- /header -->
+    
+    
+    
+    <button type="button" id="b2">importJson!</button>
+    
+    <ul id="ul1">
+    
+    </ul>
+        
+	<!-- /content -->
+    
+	<div data-role="footer" data-position="fixed">
+		<h4>Menú inferior P0</h4>    
+	</div><!-- /footer -->
+    
+	<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel1">
+		<ul data-role="listview">
+			<li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
+			<li><a href="#map-page">Mapa</a></li>
+			<li><a href="#one">ListaParadas</a></li>
+			<li><a href="#two">Onroute</a></li>
+		</ul>
+	</div><!-- /panel -->
+    
+	<div data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay" data-theme="a" id="add-form1">
+			  
+	</div><!-- /panel lateral derecho-->
+</div>
+<!-- End of MAIN page -->
+      
+         <!-- //API KEY ANDROID AIzaSyCJGnqOlGPCI9Eudvn-G3xmOBBxijRFgLE-->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5s74_AK1O9FSErM4hmZgMLaXEEeWJTzI&language=ja"
+type="text/javascript"></script>-->
+      
+    <script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5s74_AK1O9FSErM4hmZgMLaXEEeWJTzI&signed_in=true&callback=initMap">
+    </script>
+    <script src="js/jquery-1.11.0.js"></script><!--jquery.mobile-1.4.0.min.js
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery.mobile-1.4.0.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+  </body>
 </html>

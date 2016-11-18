@@ -1,0 +1,76 @@
+{
+"parades": [
+    { 
+        "name":"Pl. Catalunya" , 
+        "enllacos":"L6,L7,S5,S55,S1,S2,L1,L3,R1,R3,R4" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Provença" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Gràcia" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Sant Gervasi" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Muntaner" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"La Bonanova" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Les Tres Torres" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Sarrià" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"La Floresta" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Valldoreix" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Sant Cugat" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Volpelleres" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Sant Joan" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Bellaterra" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Universitat Autònoma" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Sant Quirze" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Can Feu | Gràcia" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }, 
+    { 
+        "name":"Sabadell Plaça Major" , 
+        "enllacos":"view_johor" ,
+        "serveis":"view_selangor" }
+    ]
+}
